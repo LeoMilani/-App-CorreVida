@@ -1,6 +1,7 @@
 package leo.integrador;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ListaActivity extends RecyclerView.Adapter<ListaActivity.ViewHolder> {
-    private Gerenciador dbm;
     private List<String> mData;
-    private List<String> mDesc;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
@@ -33,8 +32,8 @@ public class ListaActivity extends RecyclerView.Adapter<ListaActivity.ViewHolder
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String nome = mData.get(position);
-        holder.myTextView.setText(nome);
+        String dados = mData.get(position);
+        holder.myTextView.setText(dados);
 
     }
 

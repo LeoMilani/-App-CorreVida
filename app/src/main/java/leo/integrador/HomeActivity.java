@@ -117,7 +117,7 @@ public class HomeActivity extends Activity {
         // Painel ultima atividade
         dbm = new Gerenciador(getApplicationContext());
 
-        //dbm.inserirHistorico("1","06/05/2022","1","60000");
+        //dbm.inserirHistorico("12","06/05/2022","1","60000");
 
         Cursor dados = dbm.listarHome();
 

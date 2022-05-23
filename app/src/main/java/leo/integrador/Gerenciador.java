@@ -55,6 +55,14 @@ public class Gerenciador {
         return mCursor;
     }
 
+    public Cursor listarAtividades() { //selectRecords()
+        Cursor mCursor = database.rawQuery("SELECT * FROM historico ORDER BY cod DESC",null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
     public int nRegistros() {
         Cursor mCursor = database.rawQuery("SELECT * FROM usuario",null);
         //Toast.makeText(ctx,"Total de Registros="+mCursor.getCount(),Toast.LENGTH_LONG).show();

@@ -3,6 +3,9 @@ package leo.integrador;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -20,6 +23,9 @@ public class CorridaActivity extends Activity {
     private Button stop;
     private Button restart;
     private WebView wv;
+    private LocationManager lm;
+    private Location location;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
