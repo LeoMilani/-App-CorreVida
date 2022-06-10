@@ -53,6 +53,8 @@ public class AtividadesActivity extends Activity {
         dados = dbm.listarAtividades();
         DecimalFormat df = new DecimalFormat("0.00");
 
+        dados.moveToFirst();
+
         while(!dados.isLast()) {
             String atividade = "Data: "+dados.getString(1);
 
@@ -82,14 +84,13 @@ public class AtividadesActivity extends Activity {
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "Você clicou em: " + ld.getItem(position) + " N: " + position, Toast.LENGTH_SHORT).show();
 
-        //Float distancia = Float.parseFloat(dados.getString(2));
+       //Float distancia = Float.parseFloat(dados.getString(2));
 
         //Float tempo = (Float.parseFloat(dados.getString(3)) / 1000)/60;
 
         //Float velocidade = distancia/tempo;
 
         //Float calorias = 80/velocidade;
-
 
     }
 }

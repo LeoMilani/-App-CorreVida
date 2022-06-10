@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 public class BancodeDados extends SQLiteOpenHelper {
 
-    private static final int versao = 2;
+    private static final int versao = 3;
     private static final String nomebd = "chat";
 
     public BancodeDados(@Nullable Context context) {

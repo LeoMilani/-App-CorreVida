@@ -62,7 +62,7 @@ public class CadastroActivity extends Activity {
                 String usuario = editEmail.getText().toString();
                 String senha = editSenha.getText().toString();
 
-                String proxId = gerenciador.nRegistros()+"";
+                String proxId = gerenciador.nRegistros("usuario")+"";
 
                 //Toast.makeText(getApplicationContext(),proxId,Toast.LENGTH_LONG).show();
 

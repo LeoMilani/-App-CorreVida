@@ -34,7 +34,6 @@ public class ListaActivity extends RecyclerView.Adapter<ListaActivity.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         String dados = mData.get(position);
         holder.myTextView.setText(dados);
-
     }
 
     // total number of rows

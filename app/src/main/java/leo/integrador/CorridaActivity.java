@@ -1,17 +1,30 @@
 package leo.integrador;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.icu.text.SimpleDateFormat;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+
+import java.util.Date;
+import java.util.Locale;
+
 
 public class CorridaActivity extends Activity {
 
@@ -23,14 +36,23 @@ public class CorridaActivity extends Activity {
     private Button stop;
     private Button restart;
     private WebView wv;
-    private LocationManager lm;
-    private Location location;
-    private Context context;
+    private Localizacao localizacao;
+    private Gerenciador dbm;
+
+    //CONDOMETRO
+    private int seconds = 0;
+    private boolean running;
+    private boolean wasRunning;
+
+    //LOCALIZACAO
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_corrida);
+
+        dbm = new Gerenciador(getApplicationContext());
 
         wv = findViewById(R.id.webView);
         WebSettings webSettings = wv.getSettings();
@@ -89,7 +111,7 @@ public class CorridaActivity extends Activity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CorridaActivity.this, PerfilActivity.class));
+                running = true;
             }
         });
 
@@ -99,7 +121,15 @@ public class CorridaActivity extends Activity {
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CorridaActivity.this, PerfilActivity.class));
+                running = false;
+                SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+                Date data = new Date();
+                String dataTexto = formataData.format(data);
+
+                Log.i("teste","Data:"+dataTexto);
+                Log.i("teste","Tempo:"+seconds);
+
+                dbm.inserirHistorico(dataTexto,"1",seconds+"");
             }
         });
 
@@ -109,7 +139,98 @@ public class CorridaActivity extends Activity {
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CorridaActivity.this, PerfilActivity.class));
+                running = false;
+                seconds = 0;
+            }
+        });
+
+        // LOCALIZACAO
+
+
+        //CRONOMETRO
+        if (savedInstanceState != null) {
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
+        }
+        runTimer();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putInt("seconds", seconds);
+        savedInstanceState.putBoolean("running", running);
+        savedInstanceState.putBoolean("wasRunning", wasRunning);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        wasRunning = running;
+        running = false;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (wasRunning) {
+            running = true;
+        }
+    }
+
+    public void onClickStart(View view){
+        running = true;
+    }
+
+    public void onClickStop(View view){
+        running = false;
+    }
+
+    public void onClickReset(View view){
+        running = false;
+        seconds = 0;
+    }
+
+    private void runTimer(){
+
+        // Get the text view.
+        final TextView timeView
+                = (TextView)findViewById(
+                R.id.time_view);
+
+        // Creates a new Handler
+        final Handler handler
+                = new Handler();
+
+        handler.post(new Runnable() {
+            @Override
+
+            public void run()
+            {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+
+                // Format the seconds into hours, minutes,
+                // and seconds.
+                String time
+                        = String
+                        .format(Locale.getDefault(),
+                                "%d:%02d:%02d", hours,
+                                minutes, secs);
+
+                // Set the text view text.
+                timeView.setText(time);
+
+                // If running is true, increment the
+                // seconds variable.
+                if (running) {
+                    seconds++;
+                }
+
+                // Post the code again
+                // with a delay of 1 second.
+                handler.postDelayed(this, 1000);
             }
         });
     }

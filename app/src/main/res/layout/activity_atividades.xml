@@ -7,21 +7,6 @@
     android:background="#FFFFFF"
     tools:context=".AtividadesActivity">
 
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="272dp"
-        android:layout_marginEnd="64dp"
-        android:text="6km // 2hours 28 min 2s // 450kcal"
-        android:textColor="#423D3D"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="414dp"
         android:layout_height="95dp"

@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Gerenciador {
@@ -27,9 +28,9 @@ public class Gerenciador {
         return database.insert("usuario", null, values);
     }
 
-    public long inserirHistorico(String codigo, String data, String km,String tempo){
+    public long inserirHistorico(String data, String km,String tempo){
         ContentValues values = new ContentValues();
-        values.put("cod", codigo);
+        values.put("cod", nRegistros("historico"));
         values.put("data", data);
         values.put("tempo", tempo);
         values.put("km", km);
@@ -56,15 +57,16 @@ public class Gerenciador {
     }
 
     public Cursor listarAtividades() { //selectRecords()
-        Cursor mCursor = database.rawQuery("SELECT * FROM historico ORDER BY cod DESC",null);
+        Cursor mCursor = database.rawQuery("SELECT * FROM historico ORDER BY cod ASC",null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
+        Log.i("teste",""+mCursor.getCount());
         return mCursor;
     }
 
-    public int nRegistros() {
-        Cursor mCursor = database.rawQuery("SELECT * FROM usuario",null);
+    public int nRegistros(String tabela) {
+        Cursor mCursor = database.rawQuery("SELECT * FROM "+tabela,null);
         //Toast.makeText(ctx,"Total de Registros="+mCursor.getCount(),Toast.LENGTH_LONG).show();
         return mCursor.getCount();
     }
